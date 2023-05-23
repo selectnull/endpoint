@@ -1,8 +1,8 @@
 use serde::Deserialize;
 use std::env;
-use std::path::{PathBuf, Path};
 use std::fs::File;
 use std::io::Read;
+use std::path::{Path, PathBuf};
 use toml;
 
 #[derive(Deserialize)]
@@ -33,6 +33,9 @@ pub fn read_config() -> Config {
     };
 
     let mut config_string = String::new();
-    File::open(&config_path).unwrap().read_to_string(&mut config_string).unwrap();
+    File::open(&config_path)
+        .unwrap()
+        .read_to_string(&mut config_string)
+        .unwrap();
     toml::from_str(&config_string).unwrap()
 }

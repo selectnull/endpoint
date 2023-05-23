@@ -1,21 +1,26 @@
-use reqwest::{Client, Response, Method, Url, Body, header::CONTENT_TYPE};
+use reqwest::{header::CONTENT_TYPE, Body, Client, Method, Response, Url};
 use std::env;
 use tokio;
 
 mod cli;
 mod config;
 
-async fn send_request(method: Method, url: Url, body: Option<String>) -> Result<Response, reqwest::Error> {
+async fn send_request(
+    method: Method,
+    url: Url,
+    body: Option<String>,
+) -> Result<Response, reqwest::Error> {
     let client = Client::new();
 
     let req_builder = client.request(method, url);
     let req_builder = match body {
-        Some(body_content) => req_builder.header(CONTENT_TYPE, "application/json").body(Body::from(body_content)),
+        Some(body_content) => req_builder
+            .header(CONTENT_TYPE, "application/json")
+            .body(Body::from(body_content)),
         None => req_builder,
     };
     req_builder.send().await
 }
-
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

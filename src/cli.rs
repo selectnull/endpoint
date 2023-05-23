@@ -6,12 +6,12 @@ use crate::config;
 pub struct Cli {
     pub method: String,
     pub url: String,
-    pub body: Option<String>
+    pub body: Option<String>,
 }
 
 pub fn parse(args: Vec<String>) -> Result<Cli, Box<dyn std::error::Error>> {
     if args.len() < 3 {
-        return Err("Not enough arguments".into())
+        return Err("Not enough arguments".into());
     }
 
     let method = args[1].to_uppercase();
@@ -39,5 +39,5 @@ pub fn parse(args: Vec<String>) -> Result<Cli, Box<dyn std::error::Error>> {
         None
     };
 
-    Ok(Cli{method, url, body})
+    Ok(Cli { method, url, body })
 }
