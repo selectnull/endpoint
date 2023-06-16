@@ -36,12 +36,12 @@ async fn send_request(
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let foo = cli::parse_args();
+    let args = cli::parse_args();
 
-    let method: Method = Method::from(&foo.method.to_uppercase().parse().unwrap());
-    let url: Url = Url::from(cli::get_url(foo.url).parse().unwrap());
-    let body = cli::get_body((&foo.body).clone());
-    let jwt = foo.jwt;
+    let method: Method = Method::from(&args.method.to_uppercase().parse().unwrap());
+    let url: Url = Url::from(cli::get_url(args.url).parse().unwrap());
+    let body = cli::get_body((&args.body).clone());
+    let jwt = args.jwt;
 
     let resp = send_request(method, url, body, jwt).await?;
 
