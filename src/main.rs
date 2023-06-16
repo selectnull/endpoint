@@ -1,5 +1,4 @@
 use reqwest::{header::CONTENT_TYPE, Body, Client, Method, Response, Url};
-use std::env;
 use tokio;
 
 mod cli;
@@ -24,19 +23,13 @@ async fn send_request(
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args: Vec<String> = env::args().collect();
-    let parsed = match cli::parse(args) {
-        Ok(x) => x,
-        Err(_err) => {
-            eprintln!("Usage: endpoint <options> HTTP_VERB API_ENDPOINT <PAYLOAD>");
-            std::process::exit(1);
-        }
-    };
+    let foo = cli::parse_args();
 
-    let method: Method = parsed.method.parse().unwrap();
-    let url: Url = parsed.url.parse().unwrap();
+    let method: Method = Method::from(&foo.method.to_uppercase().parse().unwrap());
+    let url: Url = Url::from(cli::get_url(foo.url).parse().unwrap());
+    let body = cli::get_body((&foo.body).clone());
 
-    let resp = send_request(method, url, parsed.body).await?;
+    let resp = send_request(method, url, body).await?;
 
     println!("{}", resp.text().await?);
 
