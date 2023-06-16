@@ -15,6 +15,9 @@ pub struct Args {
 
     #[clap(name="body")]
     pub body: Option<String>,
+
+    #[clap(long, short)]
+    pub jwt: Option<String>,
 }
 
 pub fn parse_args() -> Args {
