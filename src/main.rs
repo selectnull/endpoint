@@ -45,7 +45,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let resp = send_request(method, url, body, jwt).await?;
 
-    println!("{}", resp.text().await?);
+    if args.headers {
+        resp.headers().iter().for_each(|(key, value)| {
+            println!("{}: {}", key, value.to_str().unwrap());
+        });
+    }
+
+    println!("\n{}", resp.text().await?);
 
     Ok(())
 }
