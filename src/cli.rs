@@ -7,6 +7,9 @@ use crate::config;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 pub struct Args {
+    #[clap(name="status", long, short)]
+    pub status: bool,
+
     #[clap(name="method")]
     pub method: String,
 
